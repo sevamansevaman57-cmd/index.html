@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Совершенно секретно | Vought International</title>
+    <style>
+        body {
+            background-color: #0b0c10;
+            color: #fff;
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            letter-spacing: 1px;
+        }
+        .container {
+            text-align: center;
+            background: rgba(20, 22, 26, 0.95);
+            padding: 40px;
+            border-radius: 10px;
+            border: 3px solid #ff0055;
+            box-shadow: 0 0 20px #ff0055, inset 0 0 10px #ff0055;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+        }
+        h1 {
+            color: #fff;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px #ff0055;
+            margin-bottom: 10px;
+        }
+        p {
+            font-family: 'Arial', sans-serif;
+            color: #c5c6c7;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            height: 60px;
+            position: relative;
+        }
+        button {
+            padding: 12px 35px;
+            font-size: 1.3rem;
+            font-family: 'Impact', sans-serif;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: transform 0.1s ease;
+        }
+        #yesBtn {
+            background-color: #ff0055;
+            color: white;
+            box-shadow: 0 0 15px #ff0055;
+        }
+        #yesBtn:hover {
+            background-color: #e6004c;
+            box-shadow: 0 0 25px #ff0055;
+        }
+        #noBtn {
+            background-color: #45f3ff;
+            color: #0b0c10;
+            position: absolute;
+            box-shadow: 0 0 15px #45f3ff;
+        }
+        .secret-message {
+            display: none;
+        }
+        .supe-status {
+            color: #45f3ff;
+            font-size: 1.5rem;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="mainContainer">
+        <div id="quizSection">
+            <h1>Внимание, бойз!</h1>
+            <p>План на вечер одобрен Билли Мясником. Мы собираемся смотреть сериал «Пацаны». Ты в деле?</p>
+            <div class="buttons">
+                <button id="yesBtn" onclick="agree()">Да</button>
+                <button id="noBtn" onmouseover="moveButton()" onclick="moveButton()">Нет</button>
+            </div>
+        </div>
+
+        <div id="secretSection" class="secret-message">
+            <h1 style="color: #45f3ff; text-shadow: 0 0 10px #45f3ff;">ДИАГНОЗ: НАШ ЧЕЛОВЕК!</h1>
+            <p>Хоумлендер уже в ярости, а Мясник готовит попкорн.</p>
+            <div class="supe-status">Жду сообщения в ТГ с твоим «F**king Diabolical!» 😉</div>
+        </div>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const quizSection = document.getElementById('quizSection');
+        const secretSection = document.getElementById('secretSection');
+        const container = document.getElementById('mainContainer');
+
+        // Функция, которая заставляет кнопку "Нет" убегать
+        function moveButton() {
+            const containerRect = container.getBoundingClientRect();
+            const btnRect = noBtn.getBoundingClientRect();
+
+            // Вычисляем случайные координаты внутри контейнера
+            const maxX = containerRect.width - btnRect.width - 40;
+            const maxY = containerRect.height - btnRect.height - 100;
+
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY) + 50;
+
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+        }
+
+        // Действие при нажатии на "Да"
+        function agree() {
+            quizSection.style.display = 'none';
+            secretSection.style.display = 'block';
+            container.style.border = '3px solid #45f3ff';
+            container.style.boxShadow = '0 0 20px #45f3ff, inset 0 0 10px #45f3ff';
+        }
+    </script>
+</body>
+</html>
