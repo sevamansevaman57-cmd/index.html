@@ -3,134 +3,239 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Совершенно секретно | Vought International</title>
+    <title>Vought Central Database</title>
     <style>
+        :root {
+            --neon-red: #ff0055;
+            --neon-blue: #45f3ff;
+            --neon-green: #39ff14;
+            --bg-dark: #0a0b0d;
+        }
         body {
-            background-color: #0b0c10;
+            background-color: var(--bg-dark);
             color: #fff;
-            font-family: 'Impact', 'Arial Black', sans-serif;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
             overflow: hidden;
-            letter-spacing: 1px;
         }
-        .container {
+        .screen {
+            display: none;
             text-align: center;
-            background: rgba(20, 22, 26, 0.95);
-            padding: 40px;
-            border-radius: 10px;
-            border: 3px solid #ff0055;
-            box-shadow: 0 0 20px #ff0055, inset 0 0 10px #ff0055;
+            background: rgba(15, 17, 22, 0.98);
+            padding: 35px;
+            border-radius: 12px;
             max-width: 500px;
-            width: 90%;
+            width: 85%;
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
             position: relative;
+            border: 3px solid var(--neon-blue);
         }
-        h1 {
-            color: #fff;
-            font-size: 2.5rem;
+        .active { display: block; }
+        
+        h1, h2 {
+            font-family: 'Impact', 'Arial Black', sans-serif;
             text-transform: uppercase;
-            text-shadow: 0 0 10px #ff0055;
-            margin-bottom: 10px;
+            letter-spacing: 2px;
+            margin-top: 0;
+            color: var(--neon-blue);
+            text-shadow: 0 0 10px var(--neon-blue);
         }
-        p {
-            font-family: 'Arial', sans-serif;
-            color: #c5c6c7;
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-        }
-        .buttons {
+        
+        .red-alert h1 { color: var(--neon-red); text-shadow: 0 0 10px var(--neon-red); }
+        .red-alert { border-color: var(--neon-red); }
+        
+        .green-alert h1 { color: var(--neon-green); text-shadow: 0 0 10px var(--neon-green); }
+        .green-alert { border-color: var(--neon-green); }
+
+        .btn-container {
             display: flex;
-            justify-content: center;
-            gap: 30px;
-            height: 60px;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 25px;
             position: relative;
         }
+        .row-btns {
+            flex-direction: row;
+            justify-content: center;
+            height: 55px;
+        }
+        
         button {
-            padding: 12px 35px;
-            font-size: 1.3rem;
+            padding: 12px 20px;
             font-family: 'Impact', sans-serif;
+            font-size: 1.1rem;
             text-transform: uppercase;
             border: none;
             cursor: pointer;
-            border-radius: 5px;
-            transition: transform 0.1s ease;
+            border-radius: 6px;
+            background: var(--neon-blue);
+            color: #000;
+            transition: all 0.2s ease;
         }
-        #yesBtn {
-            background-color: #ff0055;
-            color: white;
-            box-shadow: 0 0 15px #ff0055;
+        button:hover { transform: scale(1.03); opacity: 0.9; }
+        
+        .btn-red { background: var(--neon-red); color: #fff; }
+        .btn-green { background: var(--neon-green); color: #000; }
+        .btn-secondary { background: #222; color: #aaa; }
+        
+        #escapeBtn { position: absolute; width: 120px; }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
         }
-        #yesBtn:hover {
-            background-color: #e6004c;
-            box-shadow: 0 0 25px #ff0055;
-        }
-        #noBtn {
-            background-color: #45f3ff;
-            color: #0b0c10;
-            position: absolute;
-            box-shadow: 0 0 15px #45f3ff;
-        }
-        .secret-message {
-            display: none;
-        }
-        .supe-status {
-            color: #45f3ff;
-            font-size: 1.5rem;
-            margin-top: 20px;
-        }
+        .error-shake { animation: shake 0.3s ease-in-out; }
+        .progress { font-size: 0.8rem; color: #555; margin-top: 15px; letter-spacing: 3px;}
     </style>
 </head>
 <body>
 
-    <div class="container" id="mainContainer">
-        <div id="quizSection">
-            <h1>Внимание, бойз!</h1>
-            <p>План на вечер одобрен Билли Мясником. Мы собираемся смотреть сериал «Пацаны». Ты в деле?</p>
-            <div class="buttons">
-                <button id="yesBtn" onclick="agree()">Да</button>
-                <button id="noBtn" onmouseover="moveButton()" onclick="moveButton()">Нет</button>
-            </div>
+    <!-- ЭКРАН 1: СКАНИРОВАНИЕ -->
+    <div class="screen active" id="scr1">
+        <h1>VOUGHT SECURITY</h1>
+        <p>Запущено удаленное сканирование сетчатки глаза...</p>
+        <div style="font-size: 3rem; margin: 20px 0;">👁️‍🗨️</div>
+        <div class="btn-container">
+            <button onclick="nextScreen(2)">Пройти идентификацию</button>
         </div>
+        <div class="progress">01 / 10</div>
+    </div>
 
-        <div id="secretSection" class="secret-message">
-            <h1 style="color: #45f3ff; text-shadow: 0 0 10px #45f3ff;">ДИАГНОЗ: НАШ ЧЕЛОВЕК!</h1>
-            <p>Хоумлендер уже в ярости, а Мясник готовит попкорн.</p>
-            <div class="supe-status">Жду сообщения в ТГ с твоим «F**king Diabolical!» 😉</div>
+    <!-- ЭКРАН 2: ТЕСТ НА СУПЕРА -->
+    <div class="screen red-alert" id="scr2">
+        <h1>КРИТИЧЕСКИЙ ТЕСТ</h1>
+        <p>Какова ваша природа, неопознанный объект?</p>
+        <div class="btn-container">
+            <button class="btn-red" onclick="triggerError(2, 'ДОСТУП ЗАБЛОКИРОВАН. Мы охотимся на Суперов, а не зовем их смотреть кино! Нажмите правильную кнопку.')">Я Супер (Supe)</button>
+            <button onclick="nextScreen(3)">Я обычный человек</button>
         </div>
+        <p id="alert2" style="color: var(--neon-red); margin-top: 15px; font-size: 0.9rem; min-height: 20px;"></p>
+        <div class="progress">02 / 10</div>
+    </div>
+
+    <!-- ЭКРАН 3: ВЗЛОМ МЯСНИКА -->
+    <div class="screen red-alert" id="scr3">
+        <h1>СИСТЕМА ВЗЛОМАНА</h1>
+        <p style="color: #ffaa00;">[СИГНАЛ ПЕРЕХВАЧЕН КОМАНДОЙ МЯСНИКА]</p>
+        <p>«Здорово, наемник. К черту Войт. Раз уж ты человек, у нас к тебе есть дело. Но сначала — базовые припасы».</p>
+        <div class="btn-container">
+            <button class="btn-red" onclick="nextScreen(4)">Что за дело?</button>
+        </div>
+        <div class="progress">03 / 10</div>
+    </div>
+
+    <!-- ЭКРАН 4: НАПИТКИ -->
+    <div class="screen" id="scr4">
+        <h1>ШАГ 4: СНАБЖЕНИЕ</h1>
+        <p>Выбери жидкое топливо для затяжного просмотра:</p>
+        <div class="btn-container">
+            <button onclick="nextScreen(5)">Холодная Кола</button>
+            <button onclick="nextScreen(5)">Бодрящий Энергетик</button>
+            <button class="btn-red" onclick="triggerError(4, 'Мясник бьет тебя по рукам. Молоко Хоумлендера пить ЗАПРЕЩЕНО. Выбери что-то нормальное!')">Молоко Хоумлендера</button>
+        </div>
+        <p id="alert4" style="color: var(--neon-red); margin-top: 15px; font-size: 0.9rem; min-height: 20px;"></p>
+        <div class="progress">04 / 10</div>
+    </div>
+
+    <!-- ЭКРАН 5: КОРМ -->
+    <div class="screen" id="scr5">
+        <h1>ШАГ 5: ПРОВИЗИЯ</h1>
+        <p>Чем будем заедать уничтожение супергероев?</p>
+        <div class="btn-container">
+            <button onclick="nextScreen(6)">Огромная пицца</button>
+            <button onclick="nextScreen(6)">Две пачки чипсов</button>
+            <button onclick="nextScreen(6)">Гора попкорна</button>
+        </div>
+        <div class="progress">05 / 10</div>
+    </div>
+
+    <!-- ЭКРАН 6: ТОЧКА ВХОДА -->
+    <div class="screen" id="scr6">
+        <h1>ШАГ 6: СТРАТЕГИЯ</h1>
+        <p>Откуда начнем погружение в этот хаос?</p>
+        <div class="btn-container">
+            <button onclick="nextScreen(7)">С самого 1 сезона (Классика)</button>
+            <button onclick="nextScreen(7)">Продолжим там, где остановились</button>
+        </div>
+        <div class="progress">06 / 10</div>
+    </div>
+
+    <!-- ЭКРАН 7: ТЕСТ НА КРЕПКИЕ НЕРВЫ -->
+    <div class="screen red-alert" id="scr7">
+        <h1>ШАГ 7: ПРЕДУПРЕЖДЕНИЕ</h1>
+        <p>Там будет много постельных сцен, возбуждения и секса. Твоя психика готова к штурму?</p>
+        <div class="btn-container">
+            <button class="btn-red" onclick="nextScreen(8)">Мои нервы из котиков, погнали</button>
+            <button class="btn-secondary" onclick="triggerError(7, 'Мясник не терпит трусости! Нажимай первую кнопку!')">Ой, я боюсь крови...</button>
+        </div>
+        <p id="alert7" style="color: var(--neon-red); margin-top: 15px; font-size: 0.9rem; min-height: 20px;"></p>
+        <div class="progress">07 / 10</div>
+    </div>
+
+    <!-- ЭКРАН 8: КОНТРАКТ -->
+    <div class="screen" id="scr8">
+        <h1>ШАГ 8: СОГЛАШЕНИЕ</h1>
+        <p>Внимание! Вы обязуетесь не спойлерить сюжет, не залипать в телефон во время важных сцен и искренне ненавидеть Патриота.</p>
+        <div class="btn-container">
+            <button class="btn-green" onclick="nextScreen(9)">Клянусь и принимаю условия</button>
+        </div>
+        <div class="progress">08 / 10</div>
+    </div>
+
+    <!-- ЭКРАН 9: ГЛАВНЫЙ ВОПРОС -->
+    <div class="screen red-alert" id="scr9">
+        <h1>ФИНАЛЬНЫЙ РУБЕЖ</h1>
+        <p>Все протоколы пройдены. Мясник утвердил твою кандидатуру. Ты идешь смотреть со мной «Пацанов»?</p>
+        <div class="btn-container row-btns" id="container9">
+            <button id="goBtn" class="btn-red" onclick="nextScreen(10)">Я натурал!</button>
+            <button id="escapeBtn" class="btn-secondary" onmouseover="runAway()" onclick="runAway()">Я гей</button>
+        </div>
+        <div class="progress" style="margin-top: 40px;">09 / 10</div>
+    </div>
+
+    <!-- ЭКРАН 10: УСПЕХ -->
+    <div class="screen green-alert" id="scr10">
+        <h1>МИССИЯ ВЫПОЛНЕНА!</h1>
+        <p style="color: var(--neon-green); font-weight: bold;">СТАТУС: НАШ ЧЕЛОВЕК ИДЕТ НА ДЕЛО.</p>
+        <p>Припасы выбраны, контракт подписан. Финальный шаг активации:</p>
+        <div style="background: #18191c; padding: 15px; border-radius: 8px; border: 1px solid #5865f2; margin: 15px 0; text-align: left; font-size: 0.95rem;">
+            🔮 <strong>Инструкция для Discord:</strong><br>
+            1. Скопируй кодовую фразу ниже.<br>
+            2. Дропни её автору ссылки в ЛС прямо сейчас.<br>
+            3. Жди инвайт в голосовой канал!
+        </div>
+        <p style="font-size: 1.4rem; color: #ffcc00; font-family: 'Impact', sans-serif; margin-top: 15px; letter-spacing: 1px;">
+            «F**king Diabolical!» ⚡
+        </p>
+        <div class="progress">10 / 10</div>
     </div>
 
     <script>
-        const noBtn = document.getElementById('noBtn');
-        const quizSection = document.getElementById('quizSection');
-        const secretSection = document.getElementById('secretSection');
-        const container = document.getElementById('mainContainer');
-
-        // Функция, которая заставляет кнопку "Нет" убегать
-        function moveButton() {
-            const containerRect = container.getBoundingClientRect();
-            const btnRect = noBtn.getBoundingClientRect();
-
-            // Вычисляем случайные координаты внутри контейнера
-            const maxX = containerRect.width - btnRect.width - 40;
-            const maxY = containerRect.height - btnRect.height - 100;
-
-            const randomX = Math.floor(Math.random() * maxX);
-            const randomY = Math.floor(Math.random() * maxY) + 50;
-
-            noBtn.style.left = randomX + 'px';
-            noBtn.style.top = randomY + 'px';
+        function nextScreen(num) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById('scr' + num).classList.add('active');
         }
 
-        // Действие при нажатии на "Да"
-        function agree() {
-            quizSection.style.display = 'none';
-            secretSection.style.display = 'block';
-            container.style.border = '3px solid #45f3ff';
-            container.style.boxShadow = '0 0 20px #45f3ff, inset 0 0 10px #45f3ff';
+        function triggerError(scrNum, text) {
+            const scr = document.getElementById('scr' + scrNum);
+            const alert = document.getElementById('alert' + scrNum);
+            scr.classList.add('error-shake');
+            alert.innerText = text;
+            setTimeout(() => scr.classList.remove('error-shake'), 300);
         }
-    </script>
-</body>
-</html>
+
+        function runAway() {
+            const btn = document.getElementById('escapeBtn');
+            const container = document.getElementById('container9');
+            const contRect = container.getBoundingClientRect();
+            const btnRect = btn.getBoundingClientRect();
+
+            const maxX = contRect.width - btnRect.width - 10;
+            const maxY = 130; 
+
